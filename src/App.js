@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import shortid from "shortid";
-// import styles from "./index.css";
 import ContactForm from "./components/ContactForm/ContactForm ";
 import Filter from "./components/Filter/Filter";
 import ContactList from "./components/ContactList/ContactList";
@@ -37,6 +36,19 @@ class App extends Component {
       };
 
       this.setState({ contacts: [...contactsArr, newContact] });
+
+      // Передать обновлённый массив из state в LocalStorage
+
+      if (localStorage.getItem("contacts") === null) {
+        localStorage.setItem(
+          "contacts",
+          JSON.stringify([...contactsArr, newContact])
+        );
+      } else {
+        const temperaryArr = JSON.parse(localStorage.getItem("contacts"));
+        temperaryArr.push(newContact);
+        localStorage.setItem("contacts", JSON.stringify(temperaryArr));
+      }
     }
   };
 
