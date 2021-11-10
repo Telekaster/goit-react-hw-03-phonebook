@@ -12,6 +12,12 @@ class App extends Component {
     number: "",
   };
 
+  componentDidMount() {
+    if (localStorage.getItem("contacts") !== null) {
+      this.setState({ contacts: JSON.parse(localStorage.getItem("contacts")) });
+    }
+  }
+
   handleNameChange = (evt) => {
     return this.setState({ name: evt.target.value });
   };
@@ -37,7 +43,7 @@ class App extends Component {
 
       this.setState({ contacts: [...contactsArr, newContact] });
 
-      // Передать обновлённый массив из state в LocalStorage
+      // LocalStorage-------
 
       if (localStorage.getItem("contacts") === null) {
         localStorage.setItem(
@@ -49,6 +55,7 @@ class App extends Component {
         temperaryArr.push(newContact);
         localStorage.setItem("contacts", JSON.stringify(temperaryArr));
       }
+      // --------------------
     }
   };
 
@@ -64,6 +71,12 @@ class App extends Component {
     );
     const index = contactsArr.indexOf(elementForRemove);
     contactsArr.splice(index, 1);
+
+    // LocalStorage-------
+    localStorage.removeItem("contacts");
+    localStorage.setItem("contacts", JSON.stringify(contactsArr));
+    // --------------------
+
     this.setState({ contacts: [...contactsArr] });
   };
 
